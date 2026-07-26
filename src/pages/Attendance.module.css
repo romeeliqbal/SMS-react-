@@ -1,0 +1,278 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.emptyMessage {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem;
+}
+
+.topRow {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1rem;
+}
+
+.studentPicker {
+  display: flex;
+  flex-direction: column;
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.studentName {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.studentCode {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.summaryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.summaryValue {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.presentText {
+  color: var(--color-success);
+}
+
+.absentText {
+  color: var(--color-danger);
+}
+
+.leaveText {
+  color: var(--color-warning);
+}
+
+.summaryLabel {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.monthLabel {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.monthNav {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-glass);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.navButton:hover {
+  background: var(--color-bg-glass-hover);
+  color: var(--color-text-primary);
+}
+
+.weekdayRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.5rem;
+}
+
+.weekdayLabel {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding-bottom: 0.5rem;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.4rem;
+}
+
+.emptyCell {
+  aspect-ratio: 1;
+}
+
+.dayCell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-glass);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.dayCell:hover {
+  background: var(--color-bg-glass-hover);
+  transform: translateY(-1px);
+}
+
+.dayCell.weekend {
+  color: var(--color-text-muted);
+}
+
+.dayCell.today {
+  border-color: var(--color-accent-cyan);
+}
+
+.dayCell.selected {
+  box-shadow: 0 0 0 2px var(--color-accent-indigo);
+}
+
+.dayCell.present {
+  background: rgba(52, 211, 153, 0.18);
+  color: var(--color-success);
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.dayCell.absent {
+  background: rgba(248, 113, 113, 0.18);
+  color: var(--color-danger);
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+.dayCell.leave {
+  background: rgba(251, 191, 36, 0.18);
+  color: var(--color-warning);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+.markPanel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-md);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.markLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.markButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.legend {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.legendDot.present {
+  background: var(--color-success);
+}
+
+.legendDot.absent {
+  background: var(--color-danger);
+}
+
+.legendDot.leave {
+  background: var(--color-warning);
+}
+
+@media (max-width: 900px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dayCell {
+    font-size: 0.75rem;
+  }
+
+  .markPanel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,39 @@
+:root {
+  --color-bg-primary: #0a0e1a;
+  --color-bg-secondary: #0f1525;
+  --color-bg-elevated: rgba(15, 21, 37, 0.72);
+  --color-bg-glass: rgba(255, 255, 255, 0.04);
+  --color-bg-glass-hover: rgba(255, 255, 255, 0.07);
+
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-accent: rgba(99, 102, 241, 0.35);
+
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+
+  --color-accent-indigo: #6366f1;
+  --color-accent-cyan: #22d3ee;
+  --color-accent-gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
+
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 80px;
+  --topbar-height: 72px;
+
+  --transition-fast: 180ms ease;
+  --transition-normal: 280ms ease;
+
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
