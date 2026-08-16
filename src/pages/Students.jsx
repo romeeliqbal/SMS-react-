@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowDown, ArrowUp, ArrowUpDown, Eye, Pencil, Plus, Trash2, Users } from 'lucide-react';
 import GlassCard from '../components/common/GlassCard';
 import Button from '../components/common/Button';
@@ -31,6 +32,7 @@ const emptyForm = {
 };
 
 export default function Students() {
+  const navigate = useNavigate();
   const [students, setStudents] = useStoredState(STORAGE_KEYS.students, []);
   const [courses] = useStoredState(STORAGE_KEYS.courses, []);
 
@@ -338,7 +340,7 @@ export default function Students() {
                         <button
                           type="button"
                           className={styles.actionButton}
-                          onClick={() => setViewingStudent(student)}
+                          onClick={() => navigate(`/people/students/${student.id}`)}
                           aria-label={`View ${student.firstName} ${student.lastName}`}
                         >
                           <Eye size={16} />

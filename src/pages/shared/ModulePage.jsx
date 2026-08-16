@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import GlassCard from '../components/common/GlassCard';
-import SearchBar from '../components/common/SearchBar';
-import Badge from '../components/common/Badge';
-import EmptyState from '../components/common/EmptyState';
-import StatCard from '../components/common/StatCard';
+import GlassCard from '../../components/common/GlassCard';
+import SearchBar from '../../components/common/SearchBar';
+import Badge from '../../components/common/Badge';
+import EmptyState from '../../components/common/EmptyState';
+import StatCard from '../../components/common/StatCard';
 import styles from './ModulePage.module.css';
 
 export default function ModulePage({

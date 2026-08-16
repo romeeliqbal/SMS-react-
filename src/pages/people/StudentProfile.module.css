@@ -1,0 +1,217 @@
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  width: fit-content;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+}
+
+.backBtn:hover {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.profileHeaderCard {
+  background: linear-gradient(135deg, rgba(15, 21, 37, 0.8) 0%, rgba(30, 41, 59, 0.8) 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.headerMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.avatarGroup {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.2rem;
+}
+
+.classText {
+  font-size: 0.85rem;
+  color: var(--color-accent-cyan);
+  margin-top: 0.2rem;
+}
+
+.headerKpis {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.kpiPill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kpiLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.kpiVal {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-accent-cyan);
+}
+
+.tabNav {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+
+.tabContent {
+  margin-top: 0.5rem;
+}
+
+.gridTwo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  color: var(--color-accent-indigo);
+}
+
+.infoItem label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  display: block;
+}
+
+.infoItem p {
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  margin-top: 0.1rem;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.detailsGrid label {
+  font-size: 0.775rem;
+  color: var(--color-text-muted);
+  display: block;
+}
+
+.detailsGrid p {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-top: 0.2rem;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin-top: 0.75rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--color-text-primary);
+}
+
+.attHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.attHeader h4 {
+  color: var(--color-text-primary);
+}
+
+.attHeader p {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}

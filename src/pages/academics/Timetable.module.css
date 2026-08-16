@@ -1,0 +1,119 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.header h2 {
+  font-size: 1.3rem;
+  color: var(--color-text-primary);
+}
+
+.header p {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.selectorGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.select {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.gridWrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table th {
+  text-align: center;
+  padding: 0.65rem 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.timeLabel {
+  font-size: 0.725rem;
+  color: var(--color-text-muted);
+  display: block;
+  font-weight: 400;
+}
+
+.recessHead {
+  background: rgba(245, 158, 11, 0.1) !important;
+}
+
+.dayCell {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-accent-indigo);
+  text-align: center;
+}
+
+.recessCell {
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid var(--color-border);
+  color: var(--color-warning);
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.emptyCell {
+  border: 1px solid var(--color-border);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.slotCell {
+  border: 1px solid var(--color-border);
+  padding: 0.6rem;
+  text-align: center;
+  vertical-align: top;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.slotCell strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.subText {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0.2rem 0 0.3rem 0;
+}

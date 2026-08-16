@@ -126,9 +126,19 @@ export function formatPosition(rank) {
   return `${rank}th`;
 }
 
-/**
- * Generate standard teacher remark based on percentage.
- */
+export function calculateAverage(obtained, total) {
+  return calculatePercentage(obtained, total);
+}
+
+export function getLetterGrade(percentage, scale = DEFAULT_GRADING_SCALE) {
+  return getGradeFromPercentage(percentage, scale);
+}
+
+export function calculateStudentGpa() {
+  // Deprecated: Pakistani system uses percentage and marks.
+  return 0;
+}
+
 export function getAutomatedRemark(percentage, attendancePercentage = 100) {
   if (percentage >= 85) {
     return 'Exceptional academic performance and diligent commitment throughout the term.';
@@ -147,3 +157,5 @@ export function getAutomatedRemark(percentage, attendancePercentage = 100) {
   }
   return 'Requires immediate academic intervention and regular parent-teacher consultation.';
 }
+
+

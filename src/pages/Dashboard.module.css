@@ -1,275 +1,245 @@
-.dashboard {
+.dashboardPage {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
 .heroCard {
-  background:
-    radial-gradient(circle at top right, rgba(99, 102, 241, 0.18), transparent 45%),
-    radial-gradient(circle at bottom left, rgba(34, 211, 238, 0.12), transparent 40%),
-    var(--color-bg-glass);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border: 1px solid var(--color-border);
 }
 
 .heroContent {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .heroEyebrow {
-  margin: 0 0 0.35rem;
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-accent-cyan);
+  letter-spacing: 0.05em;
+  color: var(--color-accent-indigo);
 }
 
 .heroTitle {
-  margin: 0;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
   color: var(--color-text-primary);
+  margin: 0.2rem 0;
 }
 
 .heroDescription {
-  max-width: 560px;
-  margin: 0.75rem 0 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
   color: var(--color-text-secondary);
 }
 
-.heroBadge {
+.heroRoleTag {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--color-border-accent);
-  border-radius: var(--radius-md);
-  background: rgba(99, 102, 241, 0.1);
-  flex-shrink: 0;
+  align-items: flex-end;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
 }
 
-.heroBadgeLabel {
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
-}
-
-.heroBadgeValue {
+.heroRoleTag strong {
+  color: var(--color-accent-cyan);
   font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-success);
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.twoColGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.25rem;
+}
+
+.adminGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.roleGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 
-.statCard {
+.studentStatsPills {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
-.statHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
 }
 
-.statIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: rgba(99, 102, 241, 0.15);
+.pill strong {
   color: var(--color-accent-cyan);
 }
 
-.statChange {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.15rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-success);
-}
-
-.statValue {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.welcomeBanner h2 {
+  font-size: 1.3rem;
   color: var(--color-text-primary);
+  margin-bottom: 0.3rem;
 }
 
-.statLabel {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-.mainGrid {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 1rem;
-}
-
-.sectionHeader {
-  margin-bottom: 1.25rem;
-}
-
-.sectionTitle {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.sectionSubtitle {
-  margin: 0.25rem 0 0;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
+.welcomeBanner p {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
 }
 
 .chartContainer {
   width: 100%;
-  height: 280px;
+  margin-top: 1rem;
 }
 
-.tooltip {
-  padding: 0.65rem 0.85rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: rgba(15, 21, 37, 0.95);
-  box-shadow: var(--shadow-soft);
+.tableWrap {
+  overflow-x: auto;
+  margin-top: 0.75rem;
 }
 
-.tooltipLabel {
-  margin: 0;
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
-.tooltipValue {
-  margin: 0.15rem 0 0;
+.table {
+  width: 100%;
+  border-collapse: collapse;
   font-size: 0.875rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-muted);
   font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   color: var(--color-text-primary);
+}
+
+.listGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+}
+
+.listItem p {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.attentionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.attentionItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: var(--radius-sm);
+}
+
+.attIcon {
+  color: var(--color-danger);
+}
+
+.attContent {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.attContent p {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
 }
 
 .activityList {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.emptyActivity {
-  margin: 0;
-  padding: 1.5rem 0;
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .activityItem {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: start;
-  gap: 0.875rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.85rem;
 }
 
-.activityItem:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.activityItem:first-child {
-  padding-top: 0;
-}
-
-.activityDot {
+.dot {
   width: 8px;
   height: 8px;
-  margin-top: 0.45rem;
   border-radius: 50%;
-  background: var(--color-accent-gradient);
-  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+  background: var(--color-accent-indigo);
+  margin-top: 0.4rem;
 }
 
-.activityAction {
-  margin: 0;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.activityDetail {
-  margin: 0.2rem 0 0;
-  font-size: 0.82rem;
-  color: var(--color-text-secondary);
-}
-
-.activityTime {
-  font-size: 0.75rem;
+.activityItem p {
   color: var(--color-text-muted);
-  white-space: nowrap;
+  font-size: 0.775rem;
+  margin-top: 0.1rem;
 }
 
-@media (max-width: 1200px) {
-  .statsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .mainGrid {
-    grid-template-columns: 1fr;
-  }
+.smallBtn {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--color-accent-indigo);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
 
-@media (max-width: 768px) {
-  .heroContent {
-    flex-direction: column;
-  }
-
-  .heroBadge {
-    width: 100%;
-  }
-
-  .statsGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .chartContainer {
-    height: 240px;
-  }
-
-  .activityItem {
-    grid-template-columns: auto 1fr;
-  }
-
-  .activityTime {
-    grid-column: 2;
-  }
-}
-
-@media (max-width: 480px) {
-  .statsGrid {
-    grid-template-columns: 1fr;
-  }
+.smallBtn:hover {
+  background: var(--color-accent-indigo);
+  color: #fff;
 }
