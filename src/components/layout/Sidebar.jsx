@@ -1,10 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, GraduationCap, X } from 'lucide-react';
-import { navigationItems } from '../../data/navigation';
+import { getNavigationForRole } from '../../data/navigation';
+import { useAuth } from '../../context/AuthContext';
+import { useData } from '../../context/DataContext';
 import { useLayout } from '../../hooks/useLayout';
 import styles from './Sidebar.module.css';
 
 export default function Sidebar() {
+  const { activeRole } = useAuth();
+  const { settings } = useData();
   const {
     isMobile,
     sidebarOpen,
@@ -12,6 +16,8 @@ export default function Sidebar() {
     closeSidebar,
     toggleSidebarCollapse,
   } = useLayout();
+
+  const navGroups = getNavigationForRole(activeRole);
 
   const sidebarClassName = [
     styles.sidebar,
@@ -41,7 +47,9 @@ export default function Sidebar() {
             {(!sidebarCollapsed || isMobile) && (
               <div className={styles.brandText}>
                 <span className={styles.brandTitle}>EduPulse</span>
-                <span className={styles.brandSubtitle}>Student Management</span>
+                <span className={styles.brandSubtitle}>
+                  {settings.institutionName ? 'School & College' : 'Management System'}
+                </span>
               </div>
             )}
           </div>
@@ -59,32 +67,38 @@ export default function Sidebar() {
         </div>
 
         <nav className={styles.nav}>
-          <ul className={styles.navList}>
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <li key={item.id}>
-                  <NavLink
-                    to={item.path}
-                    end={item.path === '/'}
-                    className={({ isActive }) =>
-                      [styles.navLink, isActive ? styles.active : ''].filter(Boolean).join(' ')
-                    }
-                    onClick={isMobile ? closeSidebar : undefined}
-                    title={sidebarCollapsed && !isMobile ? item.label : undefined}
-                  >
-                    <span className={styles.navIcon}>
-                      <Icon size={20} strokeWidth={2} />
-                    </span>
-                    {(!sidebarCollapsed || isMobile) && (
-                      <span className={styles.navLabel}>{item.label}</span>
-                    )}
-                  </NavLink>
-                </li>
-              );
-            })}
-          </ul>
+          {navGroups.map((group) => (
+            <div key={group.id} className={styles.navGroup}>
+              {(!sidebarCollapsed || isMobile) && (
+                <span className={styles.groupLabel}>{group.label}</span>
+              )}
+              <ul className={styles.navList}>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.id}>
+                      <NavLink
+                        to={item.path}
+                        end={item.path === '/'}
+                        className={({ isActive }) =>
+                          [styles.navLink, isActive ? styles.active : ''].filter(Boolean).join(' ')
+                        }
+                        onClick={isMobile ? closeSidebar : undefined}
+                        title={sidebarCollapsed && !isMobile ? item.label : undefined}
+                      >
+                        <span className={styles.navIcon}>
+                          <Icon size={20} strokeWidth={2} />
+                        </span>
+                        {(!sidebarCollapsed || isMobile) && (
+                          <span className={styles.navLabel}>{item.label}</span>
+                        )}
+                      </NavLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
         </nav>
 
         {!isMobile && (

@@ -89,8 +89,22 @@
 
 .nav {
   flex: 1;
-  padding: 1rem 0.75rem;
+  padding: 0.75rem 0.75rem 1rem;
   overflow-y: auto;
+}
+
+.navGroup {
+  margin-bottom: 1rem;
+}
+
+.groupLabel {
+  display: block;
+  padding: 0.25rem 1rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
 }
 
 .navList {

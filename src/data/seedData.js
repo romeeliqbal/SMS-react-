@@ -1,193 +1,1454 @@
 import { getAvatarColor, getInitials } from '../utils/idGenerators';
+import { calculatePercentage, getGradeFromPercentage } from '../utils/gradeUtils';
 
-export const SEED_COURSES = [
+export const INSTITUTION_INFO = {
+  name: 'EduPulse Model School & Intermediate College',
+  tagline: 'Excellence in Education & Character Building',
+  affiliation: 'Affiliated with Board of Intermediate & Secondary Education (BISE)',
+  address: 'Sector F-8/3, Education Enclave, Islamabad, Pakistan',
+  phone: '+92 51 9260100',
+  email: 'info@edupulse.edu.pk',
+  website: 'www.edupulse.edu.pk',
+  academicYear: '2025–2026',
+  currentTerm: 'Midterm Term',
+  attendanceThreshold: 75,
+  passingPercentage: 33,
+};
+
+export const SEED_DEPARTMENTS = [
   {
-    id: 'course_cs101',
-    code: 'CS101',
-    name: 'Introduction to Computer Science',
-    instructor: 'Dr. Alan Turing',
-    description: 'Foundational concepts of programming, algorithms, and computational thinking.',
-    credits: 3,
+    id: 'dept_cs',
+    name: 'Computer Science & Information Technology',
+    code: 'CS',
+    headName: 'Engr. Fatima Zahra',
+    facultyCount: 4,
+    description: 'Covers ICS, Matric Computer Science, Programming, and Database Systems.',
+    status: 'Active',
+  },
+  {
+    id: 'dept_science',
+    name: 'Science & Pre-Engineering',
+    code: 'SCI-ENG',
+    headName: 'Dr. Usman Ali',
+    facultyCount: 6,
+    description: 'Physics, Mathematics, and Chemistry for Matriculation and FSc Pre-Engineering.',
+    status: 'Active',
+  },
+  {
+    id: 'dept_medical',
+    name: 'Biological & Pre-Medical Sciences',
+    code: 'MED',
+    headName: 'Dr. Saima Rashid',
+    facultyCount: 5,
+    description: 'Biology, Botany, Zoology, and Chemistry for FSc Pre-Medical and Matric.',
+    status: 'Active',
+  },
+  {
+    id: 'dept_humanities',
+    name: 'Languages & Social Sciences',
+    code: 'HUM',
+    headName: 'Prof. Jamil Siddiqui',
+    facultyCount: 5,
+    description: 'Urdu, English Literature, Pakistan Studies, and Islamic Studies.',
+    status: 'Active',
+  },
+  {
+    id: 'dept_commerce',
+    name: 'Commerce & Accounting',
+    code: 'COM',
+    headName: 'Mr. Asif Raza',
+    facultyCount: 3,
+    description: 'I.Com, Principles of Accounting, Banking, and Commercial Geography.',
+    status: 'Active',
+  },
+];
+
+export const SEED_CLASSES = [
+  {
+    id: 'class_9a',
+    name: 'Grade 9',
+    section: 'Section A (Science)',
+    academicLevel: 'Matriculation',
+    classTeacherId: 'teacher_3',
+    classTeacherName: 'Dr. Usman Ali',
+    roomNumber: 'Room 101',
+    capacity: 35,
+    departmentId: 'dept_science',
+    academicYear: '2025–2026',
+  },
+  {
+    id: 'class_9b',
+    name: 'Grade 9',
+    section: 'Section B (Computer Science)',
+    academicLevel: 'Matriculation',
+    classTeacherId: 'teacher_2',
+    classTeacherName: 'Engr. Fatima Zahra',
+    roomNumber: 'Room 102',
+    capacity: 35,
+    departmentId: 'dept_cs',
+    academicYear: '2025–2026',
+  },
+  {
+    id: 'class_10a',
+    name: 'Grade 10',
+    section: 'Section A (Science / Pre-Med)',
+    academicLevel: 'Matriculation',
+    classTeacherId: 'teacher_1',
+    classTeacherName: 'Engr. Bilal Hassan',
+    roomNumber: 'Room 201',
+    capacity: 35,
+    departmentId: 'dept_science',
+    academicYear: '2025–2026',
+  },
+  {
+    id: 'class_10b',
+    name: 'Grade 10',
+    section: 'Section B (Computer Science)',
+    academicLevel: 'Matriculation',
+    classTeacherId: 'teacher_4',
+    classTeacherName: 'Ms. Ayesha Siddiqui',
+    roomNumber: 'Room 202',
+    capacity: 35,
+    departmentId: 'dept_cs',
+    academicYear: '2025–2026',
+  },
+  {
+    id: 'class_fsc1',
+    name: '1st Year FSc',
+    section: 'Pre-Engineering (Sec A)',
+    academicLevel: 'Intermediate',
+    classTeacherId: 'teacher_5',
+    classTeacherName: 'Prof. Tariq Mehmood',
+    roomNumber: 'Lecture Hall 1',
     capacity: 40,
-    status: 'Active',
+    departmentId: 'dept_science',
+    academicYear: '2025–2026',
   },
   {
-    id: 'course_math201',
-    code: 'MATH201',
-    name: 'Calculus II',
-    instructor: 'Dr. Ada Lovelace',
-    description: 'Integral calculus, sequences, series, and applications to the sciences.',
-    credits: 4,
+    id: 'class_ics1',
+    name: '1st Year ICS',
+    section: 'Computer Science (Sec B)',
+    academicLevel: 'Intermediate',
+    classTeacherId: 'teacher_2',
+    classTeacherName: 'Engr. Fatima Zahra',
+    roomNumber: 'Computer Lab 2',
     capacity: 35,
+    departmentId: 'dept_cs',
+    academicYear: '2025–2026',
+  },
+];
+
+export const SEED_TEACHERS = [
+  {
+    id: 'teacher_1',
+    teacherCode: 'TCH-101',
+    firstName: 'Bilal',
+    lastName: 'Hassan',
+    fullName: 'Engr. Bilal Hassan',
+    designation: 'Senior Lecturer in Mathematics',
+    departmentId: 'dept_science',
+    departmentName: 'Science & Pre-Engineering',
+    email: 'bilal.hassan@edupulse.edu.pk',
+    phone: '+92 300 4567891',
+    qualification: 'M.Sc Applied Mathematics (QAU), B.Ed',
+    experience: '8 Years',
+    status: 'Active',
+    joiningDate: '2018-09-01',
+    assignedClassIds: ['class_10a', 'class_fsc1'],
+    assignedSubjectIds: ['subj_math10', 'subj_math_fsc1'],
+    avatarColor: '#2563eb',
+    initials: 'BH',
+  },
+  {
+    id: 'teacher_2',
+    teacherCode: 'TCH-102',
+    firstName: 'Fatima',
+    lastName: 'Zahra',
+    fullName: 'Engr. Fatima Zahra',
+    designation: 'Head of Department & CS Lecturer',
+    departmentId: 'dept_cs',
+    departmentName: 'Computer Science',
+    email: 'fatima.zahra@edupulse.edu.pk',
+    phone: '+92 321 8765432',
+    qualification: 'MS Computer Science (NUST)',
+    experience: '10 Years',
+    status: 'Active',
+    joiningDate: '2016-08-15',
+    assignedClassIds: ['class_9b', 'class_10b', 'class_ics1'],
+    assignedSubjectIds: ['subj_cs10', 'subj_cs_ics1'],
+    avatarColor: '#7c3aed',
+    initials: 'FZ',
+  },
+  {
+    id: 'teacher_3',
+    teacherCode: 'TCH-103',
+    firstName: 'Usman',
+    lastName: 'Ali',
+    fullName: 'Dr. Usman Ali',
+    designation: 'Associate Professor of Physics',
+    departmentId: 'dept_science',
+    departmentName: 'Science & Pre-Engineering',
+    email: 'usman.ali@edupulse.edu.pk',
+    phone: '+92 333 1122334',
+    qualification: 'Ph.D Physics (PIEAS)',
+    experience: '12 Years',
+    status: 'Active',
+    joiningDate: '2015-01-10',
+    assignedClassIds: ['class_9a', 'class_10a', 'class_fsc1'],
+    assignedSubjectIds: ['subj_phy10', 'subj_phy_fsc1'],
+    avatarColor: '#059669',
+    initials: 'UA',
+  },
+  {
+    id: 'teacher_4',
+    teacherCode: 'TCH-104',
+    firstName: 'Ayesha',
+    lastName: 'Siddiqui',
+    fullName: 'Ms. Ayesha Siddiqui',
+    designation: 'Lecturer in English & Communication',
+    departmentId: 'dept_humanities',
+    departmentName: 'Languages & Social Sciences',
+    email: 'ayesha.siddiqui@edupulse.edu.pk',
+    phone: '+92 301 9988776',
+    qualification: 'M.Phil English Literature (NUML)',
+    experience: '6 Years',
+    status: 'Active',
+    joiningDate: '2020-03-01',
+    assignedClassIds: ['class_10a', 'class_10b', 'class_fsc1', 'class_ics1'],
+    assignedSubjectIds: ['subj_eng10', 'subj_eng_fsc1'],
+    avatarColor: '#db2777',
+    initials: 'AS',
+  },
+  {
+    id: 'teacher_5',
+    teacherCode: 'TCH-105',
+    firstName: 'Tariq',
+    lastName: 'Mehmood',
+    fullName: 'Prof. Tariq Mehmood',
+    designation: 'Principal & Professor of Chemistry',
+    departmentId: 'dept_science',
+    departmentName: 'Science & Pre-Engineering',
+    email: 'tariq.mehmood@edupulse.edu.pk',
+    phone: '+92 300 5544332',
+    qualification: 'Ph.D Organic Chemistry (Punjab Univ)',
+    experience: '22 Years',
+    status: 'Active',
+    joiningDate: '2008-05-01',
+    assignedClassIds: ['class_10a', 'class_fsc1'],
+    assignedSubjectIds: ['subj_chem10', 'subj_chem_fsc1'],
+    avatarColor: '#0f766e',
+    initials: 'TM',
+  },
+  {
+    id: 'teacher_6',
+    teacherCode: 'TCH-106',
+    firstName: 'Saima',
+    lastName: 'Rashid',
+    fullName: 'Dr. Saima Rashid',
+    designation: 'Assistant Professor of Biology',
+    departmentId: 'dept_medical',
+    departmentName: 'Biological Sciences',
+    email: 'saima.rashid@edupulse.edu.pk',
+    phone: '+92 312 6677889',
+    qualification: 'Ph.D Zoology (QAU)',
+    experience: '9 Years',
+    status: 'Active',
+    joiningDate: '2017-09-10',
+    assignedClassIds: ['class_9a', 'class_10a'],
+    assignedSubjectIds: ['subj_bio10'],
+    avatarColor: '#d97706',
+    initials: 'SR',
+  },
+  {
+    id: 'teacher_7',
+    teacherCode: 'TCH-107',
+    firstName: 'Jamil',
+    lastName: 'Siddiqui',
+    fullName: 'Prof. Jamil Siddiqui',
+    designation: 'Lecturer in Urdu & Pakistan Studies',
+    departmentId: 'dept_humanities',
+    departmentName: 'Languages & Social Sciences',
+    email: 'jamil.siddiqui@edupulse.edu.pk',
+    phone: '+92 345 2233445',
+    qualification: 'MA Urdu & History (Univ of Peshawar)',
+    experience: '15 Years',
+    status: 'Active',
+    joiningDate: '2012-02-15',
+    assignedClassIds: ['class_10a', 'class_10b', 'class_fsc1'],
+    assignedSubjectIds: ['subj_urdu10', 'subj_pst10', 'subj_isl10'],
+    avatarColor: '#475569',
+    initials: 'JS',
+  },
+  {
+    id: 'teacher_8',
+    teacherCode: 'TCH-108',
+    firstName: 'Rashid',
+    lastName: 'Minhas',
+    fullName: 'Mr. Rashid Minhas',
+    designation: 'Lecturer in Commerce & Accounts',
+    departmentId: 'dept_commerce',
+    departmentName: 'Commerce',
+    email: 'rashid.minhas@edupulse.edu.pk',
+    phone: '+92 334 7788990',
+    qualification: 'M.Com, ACMA (Finalist)',
+    experience: '7 Years',
+    status: 'Active',
+    joiningDate: '2019-11-01',
+    assignedClassIds: ['class_fsc1'],
+    assignedSubjectIds: ['subj_pst10'],
+    avatarColor: '#0284c7',
+    initials: 'RM',
+  },
+];
+
+export const SEED_SUBJECTS = [
+  {
+    id: 'subj_math10',
+    code: 'MTH-10',
+    name: 'Mathematics',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_1',
+    teacherName: 'Engr. Bilal Hassan',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 75,
+    practicalMarks: 0,
+    departmentId: 'dept_science',
     status: 'Active',
   },
   {
-    id: 'course_phy150',
-    code: 'PHY150',
-    name: 'Physics for Engineers',
-    instructor: 'Dr. Marie Curie',
-    description: 'Mechanics, thermodynamics, and electromagnetism with lab components.',
-    credits: 4,
-    capacity: 30,
+    id: 'subj_phy10',
+    code: 'PHY-10',
+    name: 'Physics (Theory & Practical)',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_3',
+    teacherName: 'Dr. Usman Ali',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 60,
+    practicalMarks: 15,
+    departmentId: 'dept_science',
     status: 'Active',
   },
   {
-    id: 'course_eng105',
-    code: 'ENG105',
-    name: 'Academic Writing',
-    instructor: 'Prof. Maya Rowan',
-    description: 'Developing clear, persuasive academic writing across disciplines.',
-    credits: 2,
-    capacity: 25,
+    id: 'subj_chem10',
+    code: 'CHM-10',
+    name: 'Chemistry (Theory & Practical)',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_5',
+    teacherName: 'Prof. Tariq Mehmood',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 60,
+    practicalMarks: 15,
+    departmentId: 'dept_science',
     status: 'Active',
   },
   {
-    id: 'course_bio120',
-    code: 'BIO120',
-    name: 'Cell Biology',
-    instructor: 'Dr. Rosalind Franklin',
-    description: 'Structure and function of cells, from molecules to organelles.',
-    credits: 3,
-    capacity: 30,
-    status: 'Upcoming',
+    id: 'subj_bio10',
+    code: 'BIO-10',
+    name: 'Biology (Theory & Practical)',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_6',
+    teacherName: 'Dr. Saima Rashid',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 60,
+    practicalMarks: 15,
+    departmentId: 'dept_medical',
+    status: 'Active',
   },
   {
-    id: 'course_ds301',
-    code: 'DS301',
-    name: 'Data Structures & Algorithms',
-    instructor: 'Dr. Grace Hopper',
-    description: 'Trees, graphs, sorting, and algorithmic complexity analysis.',
-    credits: 4,
-    capacity: 35,
+    id: 'subj_cs10',
+    code: 'CSC-10',
+    name: 'Computer Science',
+    classId: 'class_10b',
+    className: 'Grade 10',
+    teacherId: 'teacher_2',
+    teacherName: 'Engr. Fatima Zahra',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 50,
+    practicalMarks: 25,
+    departmentId: 'dept_cs',
+    status: 'Active',
+  },
+  {
+    id: 'subj_eng10',
+    code: 'ENG-10',
+    name: 'English Compulsory',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_4',
+    teacherName: 'Ms. Ayesha Siddiqui',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 75,
+    practicalMarks: 0,
+    departmentId: 'dept_humanities',
+    status: 'Active',
+  },
+  {
+    id: 'subj_urdu10',
+    code: 'URD-10',
+    name: 'Urdu Compulsory',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_7',
+    teacherName: 'Prof. Jamil Siddiqui',
+    totalMarks: 75,
+    passingMarks: 25,
+    theoryMarks: 75,
+    practicalMarks: 0,
+    departmentId: 'dept_humanities',
+    status: 'Active',
+  },
+  {
+    id: 'subj_isl10',
+    code: 'ISL-10',
+    name: 'Islamiat Compulsory / Ethics',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_7',
+    teacherName: 'Prof. Jamil Siddiqui',
+    totalMarks: 50,
+    passingMarks: 17,
+    theoryMarks: 50,
+    practicalMarks: 0,
+    departmentId: 'dept_humanities',
+    status: 'Active',
+  },
+  {
+    id: 'subj_pst10',
+    code: 'PST-10',
+    name: 'Pakistan Studies',
+    classId: 'class_10a',
+    className: 'Grade 10',
+    teacherId: 'teacher_7',
+    teacherName: 'Prof. Jamil Siddiqui',
+    totalMarks: 50,
+    passingMarks: 17,
+    theoryMarks: 50,
+    practicalMarks: 0,
+    departmentId: 'dept_humanities',
+    status: 'Active',
+  },
+  {
+    id: 'subj_math_fsc1',
+    code: 'MTH-11',
+    name: 'FSc Mathematics Part-I',
+    classId: 'class_fsc1',
+    className: '1st Year FSc',
+    teacherId: 'teacher_1',
+    teacherName: 'Engr. Bilal Hassan',
+    totalMarks: 100,
+    passingMarks: 33,
+    theoryMarks: 100,
+    practicalMarks: 0,
+    departmentId: 'dept_science',
+    status: 'Active',
+  },
+  {
+    id: 'subj_phy_fsc1',
+    code: 'PHY-11',
+    name: 'FSc Physics Part-I',
+    classId: 'class_fsc1',
+    className: '1st Year FSc',
+    teacherId: 'teacher_3',
+    teacherName: 'Dr. Usman Ali',
+    totalMarks: 100,
+    passingMarks: 33,
+    theoryMarks: 85,
+    practicalMarks: 15,
+    departmentId: 'dept_science',
+    status: 'Active',
+  },
+  {
+    id: 'subj_cs_ics1',
+    code: 'CSC-11',
+    name: 'ICS Computer Science Part-I',
+    classId: 'class_ics1',
+    className: '1st Year ICS',
+    teacherId: 'teacher_2',
+    teacherName: 'Engr. Fatima Zahra',
+    totalMarks: 100,
+    passingMarks: 33,
+    theoryMarks: 75,
+    practicalMarks: 25,
+    departmentId: 'dept_cs',
     status: 'Active',
   },
 ];
 
-const FIRST_NAMES = [
-  'Sarah', 'James', 'Amara', 'Liam', 'Fatima', 'Noah', 'Priya', 'Ethan', 'Zainab', 'Lucas',
-  'Aisha', 'Mason', 'Layla', 'Omar', 'Grace', 'Daniel', 'Mei', 'Ibrahim', 'Isabella', 'Kwame',
-  'Sofia', 'Ryan', 'Hana', 'Marcus', 'Nadia',
+const RAW_STUDENT_NAMES = [
+  { first: 'Romeel', last: 'Iqbal', guardian: 'Muhammad Iqbal', relation: 'Father', phone: '+92 300 1234567', classId: 'class_10a', rollNo: '10-A-01' },
+  { first: 'Ahmed', last: 'Khan', guardian: 'Tariq Khan', relation: 'Father', phone: '+92 301 2345678', classId: 'class_10a', rollNo: '10-A-02' },
+  { first: 'Hamza', last: 'Malik', guardian: 'Malik Zafar', relation: 'Father', phone: '+92 302 3456789', classId: 'class_10a', rollNo: '10-A-03' },
+  { first: 'Zainab', last: 'Bibi', guardian: 'Ghulam Rasool', relation: 'Father', phone: '+92 303 4567890', classId: 'class_10a', rollNo: '10-A-04' },
+  { first: 'Ayesha', last: 'Noor', guardian: 'Noor Muhammad', relation: 'Father', phone: '+92 304 5678901', classId: 'class_10a', rollNo: '10-A-05' },
+  { first: 'Daniyal', last: 'Rehman', guardian: 'Abdul Rehman', relation: 'Father', phone: '+92 305 6789012', classId: 'class_10a', rollNo: '10-A-06' },
+  { first: 'Bilal', last: 'Shah', guardian: 'Syed Shah', relation: 'Father', phone: '+92 306 7890123', classId: 'class_10a', rollNo: '10-A-07' },
+  { first: 'Sana', last: 'Mir', guardian: 'Mir Afzal', relation: 'Father', phone: '+92 307 8901234', classId: 'class_10a', rollNo: '10-A-08' },
+  { first: 'Mustafa', last: 'Tariq', guardian: 'Tariq Mehmood', relation: 'Father', phone: '+92 308 9012345', classId: 'class_10a', rollNo: '10-A-09' },
+  { first: 'Fatima', last: 'Ali', guardian: 'Ali Raza', relation: 'Father', phone: '+92 309 0123456', classId: 'class_10a', rollNo: '10-A-10' },
+
+  { first: 'Usman', last: 'Ghani', guardian: 'Ghani-ur-Rehman', relation: 'Father', phone: '+92 321 1234567', classId: 'class_10b', rollNo: '10-B-01' },
+  { first: 'Hassan', last: 'Raza', guardian: 'Raza Hussain', relation: 'Father', phone: '+92 322 2345678', classId: 'class_10b', rollNo: '10-B-02' },
+  { first: 'Khadija', last: 'Tul Kubra', guardian: 'Muhammad Farooq', relation: 'Father', phone: '+92 323 3456789', classId: 'class_10b', rollNo: '10-B-03' },
+  { first: 'Maryam', last: 'Iqbal', guardian: 'Muhammad Iqbal', relation: 'Father', phone: '+92 300 1234567', classId: 'class_10b', rollNo: '10-B-04' },
+  { first: 'Saad', last: 'Mehmood', guardian: 'Mehmood Akhtar', relation: 'Father', phone: '+92 324 4567890', classId: 'class_10b', rollNo: '10-B-05' },
+  { first: 'Laiba', last: 'Javed', guardian: 'Javed Iqbal', relation: 'Father', phone: '+92 325 5678901', classId: 'class_10b', rollNo: '10-B-06' },
+
+  { first: 'Waqas', last: 'Ahmed', guardian: 'Bashir Ahmed', relation: 'Father', phone: '+92 331 1234567', classId: 'class_9a', rollNo: '9-A-01' },
+  { first: 'Mahnoor', last: 'Fatima', guardian: 'Imtiaz Ali', relation: 'Father', phone: '+92 332 2345678', classId: 'class_9a', rollNo: '9-A-02' },
+  { first: 'Ali', last: 'Haider', guardian: 'Ghulam Haider', relation: 'Father', phone: '+92 333 3456789', classId: 'class_9a', rollNo: '9-A-03' },
+  { first: 'Iqra', last: 'Nadeem', guardian: 'Nadeem Akhtar', relation: 'Father', phone: '+92 334 4567890', classId: 'class_9a', rollNo: '9-A-04' },
+  { first: 'Farhan', last: 'Akram', guardian: 'Muhammad Akram', relation: 'Father', phone: '+92 335 5678901', classId: 'class_9a', rollNo: '9-A-05' },
+
+  { first: 'Shahzaib', last: 'Khan', guardian: 'Feroz Khan', relation: 'Father', phone: '+92 341 1234567', classId: 'class_9b', rollNo: '9-B-01' },
+  { first: 'Zoya', last: 'Siddiqui', guardian: 'Saleem Siddiqui', relation: 'Father', phone: '+92 342 2345678', classId: 'class_9b', rollNo: '9-B-02' },
+  { first: 'Abdullah', last: 'Nawaz', guardian: 'Nawazish Ali', relation: 'Father', phone: '+92 343 3456789', classId: 'class_9b', rollNo: '9-B-03' },
+  { first: 'Eman', last: 'Zahra', guardian: 'Syed Baqir', relation: 'Father', phone: '+92 344 4567890', classId: 'class_9b', rollNo: '9-B-04' },
+
+  { first: 'Zubair', last: 'Khalid', guardian: 'Khalid Mehmood', relation: 'Father', phone: '+92 311 1234567', classId: 'class_fsc1', rollNo: 'FSC-01' },
+  { first: 'Anum', last: 'Shehzadi', guardian: 'Shahid Mehmood', relation: 'Father', phone: '+92 312 2345678', classId: 'class_fsc1', rollNo: 'FSC-02' },
+  { first: 'Talha', last: 'Bin Tariq', guardian: 'Tariq Masood', relation: 'Father', phone: '+92 313 3456789', classId: 'class_fsc1', rollNo: 'FSC-03' },
+  { first: 'Nimra', last: 'Kousar', guardian: 'Kousar Ali', relation: 'Father', phone: '+92 314 4567890', classId: 'class_fsc1', rollNo: 'FSC-04' },
+
+  { first: 'Asad', last: 'Ullah', guardian: 'Nasrullah Khan', relation: 'Father', phone: '+92 315 5678901', classId: 'class_ics1', rollNo: 'ICS-01' },
+  { first: 'Hiba', last: 'Tariq', guardian: 'Tariq Jameel', relation: 'Father', phone: '+92 316 6789012', classId: 'class_ics1', rollNo: 'ICS-02' },
+  { first: 'Umer', last: 'Farooq', guardian: 'Farooq Azam', relation: 'Father', phone: '+92 317 7890123', classId: 'class_ics1', rollNo: 'ICS-03' },
 ];
-
-const LAST_NAMES = [
-  'Chen', 'Patel', 'Okafor', 'Silva', 'Khan', 'Garcia', 'Kumar', 'Nguyen', 'Ahmed', 'Rossi',
-  'Bello', 'Johnson', 'Haddad', 'Park', 'Ali', 'Fischer', 'Wong', 'Osei', 'Martinez', 'Diallo',
-  'Novak', 'Brooks', 'Tanaka', 'Reyes', 'Hussain',
-];
-
-const STATUSES = ['Active', 'Active', 'Active', 'Active', 'Inactive', 'Graduated'];
-
-function buildEnrollmentDate(index) {
-  const monthsAgo = (index % 10) + 1;
-  const date = new Date();
-  date.setMonth(date.getMonth() - monthsAgo);
-  date.setDate(((index * 7) % 27) + 1);
-  return date.toISOString().slice(0, 10);
-}
 
 export function generateSeedStudents() {
-  return FIRST_NAMES.map((firstName, index) => {
-    const lastName = LAST_NAMES[index];
-    const courseCount = (index % 3) + 1;
-    const courseIds = [];
-    for (let c = 0; c < courseCount; c += 1) {
-      const course = SEED_COURSES[(index + c) % SEED_COURSES.length];
-      if (!courseIds.includes(course.id)) {
-        courseIds.push(course.id);
-      }
+  const classLookup = Object.fromEntries(SEED_CLASSES.map((c) => [c.id, c]));
+
+  return RAW_STUDENT_NAMES.map((item, index) => {
+    const classObj = classLookup[item.classId] || SEED_CLASSES[2];
+    const fullName = `${item.first} ${item.last}`;
+    const codeIndex = String(index + 1).padStart(3, '0');
+
+    // Subjects enrolled based on class
+    let subjectIds = [];
+    if (item.classId === 'class_10a') {
+      subjectIds = ['subj_math10', 'subj_phy10', 'subj_chem10', 'subj_bio10', 'subj_eng10', 'subj_urdu10', 'subj_isl10', 'subj_pst10'];
+    } else if (item.classId === 'class_10b') {
+      subjectIds = ['subj_math10', 'subj_phy10', 'subj_chem10', 'subj_cs10', 'subj_eng10', 'subj_urdu10', 'subj_isl10', 'subj_pst10'];
+    } else if (item.classId === 'class_9a') {
+      subjectIds = ['subj_math10', 'subj_phy10', 'subj_chem10', 'subj_bio10', 'subj_eng10', 'subj_urdu10'];
+    } else if (item.classId === 'class_9b') {
+      subjectIds = ['subj_math10', 'subj_phy10', 'subj_chem10', 'subj_cs10', 'subj_eng10', 'subj_urdu10'];
+    } else if (item.classId === 'class_fsc1') {
+      subjectIds = ['subj_math_fsc1', 'subj_phy_fsc1', 'subj_chem10', 'subj_eng10', 'subj_urdu10'];
+    } else {
+      subjectIds = ['subj_math_fsc1', 'subj_cs_ics1', 'subj_phy_fsc1', 'subj_eng10', 'subj_urdu10'];
     }
 
-    const fullName = `${firstName} ${lastName}`;
+    const bDayYear = 2008 - (item.classId.includes('fsc') || item.classId.includes('ics') ? 1 : 0);
+    const dob = `${bDayYear}-0${(index % 9) + 1}-15`;
+
     return {
       id: `student_${index + 1}`,
-      studentCode: `STU-2024-${String(index + 1).padStart(3, '0')}`,
-      firstName,
-      lastName,
-      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@edupulse.edu`,
-      phone: `+1 555-01${String(10 + index).slice(-2)}-${String(1000 + index * 37).slice(-4)}`,
-      courseIds,
-      status: STATUSES[index % STATUSES.length],
-      enrollmentDate: buildEnrollmentDate(index),
+      studentCode: `ST-2024-${codeIndex}`,
+      biseRegistrationNo: `BISE-ISB-2024-${String(1000 + index)}`,
+      rollNo: item.rollNo,
+      firstName: item.first,
+      lastName: item.last,
+      fullName,
+      gender: ['Zainab', 'Ayesha', 'Sana', 'Fatima', 'Khadija', 'Maryam', 'Laiba', 'Mahnoor', 'Iqra', 'Zoya', 'Eman', 'Anum', 'Nimra', 'Hiba'].includes(item.first) ? 'Female' : 'Male',
+      email: `${item.first.toLowerCase()}.${item.last.toLowerCase()}@student.edupulse.edu.pk`,
+      phone: item.phone,
+      dateOfBirth: dob,
+      classId: item.classId,
+      className: classObj.name,
+      section: classObj.section,
+      subjectIds,
+      guardianName: item.guardian,
+      guardianRelation: item.relation,
+      guardianPhone: item.phone,
+      guardianEmail: `${item.guardian.toLowerCase().replace(/\s+/g, '.')}@parent.edupulse.edu.pk`,
+      address: `House #${(index * 7) % 80 + 1}, Street ${(index % 12) + 1}, Sector G-${(index % 10) + 8}, Islamabad`,
+      bBloodGroup: ['A+', 'B+', 'O+', 'AB+', 'O-'][(index * 3) % 5],
+      religion: 'Islam',
+      status: index === 14 ? 'Inactive' : index === 20 ? 'Graduated' : 'Active',
+      admissionDate: '2024-04-15',
       avatarColor: getAvatarColor(fullName),
-      initials: getInitials(firstName, lastName),
+      initials: getInitials(item.first, item.last),
+      transportRequired: index % 3 === 0,
+      hostelRequired: index % 6 === 0,
     };
   });
-}
-
-function buildAttendanceKey(studentId, dateStr) {
-  return `${studentId}_${dateStr}`;
 }
 
 export function generateSeedAttendance(students) {
   const records = {};
   const today = new Date();
 
-  students.forEach((student, sIndex) => {
-    for (let dayOffset = 0; dayOffset < 20; dayOffset += 1) {
+  students.forEach((student, sIdx) => {
+    // Generate 30 past school days attendance
+    for (let dayOffset = 0; dayOffset < 30; dayOffset += 1) {
       const date = new Date(today);
       date.setDate(today.getDate() - dayOffset);
       const day = date.getDay();
-      if (day === 0 || day === 6) {
-        continue; // skip weekends
-      }
+      if (day === 0 || day === 6) continue; // Skip Sat/Sun
+
       const dateStr = date.toISOString().slice(0, 10);
-      const roll = (sIndex + dayOffset) % 10;
+      const key = `${student.id}_${dateStr}`;
+
+      // Realistic attendance probability (approx 88% present)
+      const seedVal = (sIdx * 17 + dayOffset * 23) % 100;
       let status = 'present';
-      if (roll === 0) status = 'absent';
-      else if (roll === 1) status = 'leave';
-      records[buildAttendanceKey(student.id, dateStr)] = status;
+      if (sIdx === 5 || sIdx === 11) {
+        // Few students with low attendance for "Needs Attention" testing (<75%)
+        if (seedVal < 35) status = 'absent';
+        else if (seedVal < 45) status = 'leave';
+        else if (seedVal < 55) status = 'late';
+      } else {
+        if (seedVal < 8) status = 'absent';
+        else if (seedVal < 14) status = 'leave';
+        else if (seedVal < 20) status = 'late';
+      }
+
+      records[key] = status;
     }
   });
 
   return records;
 }
 
-export function generateSeedGrades(students) {
+export const SEED_EXAMS = [
+  {
+    id: 'exam_mid_2026',
+    name: 'Midterm Examination 2026',
+    term: 'Midterm Term',
+    academicYear: '2025–2026',
+    startDate: '2026-03-01',
+    endDate: '2026-03-12',
+    status: 'Published',
+    description: 'Comprehensive evaluation covering 50% of annual curriculum for Matric and Intermediate.',
+  },
+  {
+    id: 'exam_monthly_oct',
+    name: 'Monthly Assessment - October',
+    term: 'First Term',
+    academicYear: '2025–2026',
+    startDate: '2025-10-20',
+    endDate: '2025-10-25',
+    status: 'Completed',
+    description: 'First term progress assessment across all departments.',
+  },
+  {
+    id: 'exam_final_2026',
+    name: 'Annual / Send-Up Examination 2026',
+    term: 'Final Term',
+    academicYear: '2025–2026',
+    startDate: '2026-05-10',
+    endDate: '2026-05-24',
+    status: 'Scheduled',
+    description: 'Pre-board send-up examination according to BISE standard pattern.',
+  },
+  {
+    id: 'exam_prac_2026',
+    name: 'Annual Science Practical Examination',
+    term: 'Practical',
+    academicYear: '2025–2026',
+    startDate: '2026-05-26',
+    endDate: '2026-05-30',
+    status: 'Draft',
+    description: 'Practical lab assessments for Physics, Chemistry, Biology, and Computer Science.',
+  },
+];
+
+export function generateSeedMarks(students) {
   const records = [];
-  students.forEach((student, sIndex) => {
-    student.courseIds.forEach((courseId, cIndex) => {
-      const base = 65 + ((sIndex * 7 + cIndex * 13) % 32);
+
+  students.forEach((student, sIdx) => {
+    // Generate marks for Midterm Exam for all subjects
+    student.subjectIds.forEach((subjId, cIdx) => {
+      const subject = SEED_SUBJECTS.find((s) => s.id === subjId);
+      const totalMarks = subject ? subject.totalMarks : 75;
+      const passingMarks = subject ? subject.passingMarks : 25;
+
+      // Realistic Pakistani marks distribution (Romeel is top student, others distributed)
+      let percentageBasis = 72 + ((sIdx * 11 + cIdx * 19) % 24);
+      if (student.firstName === 'Romeel') percentageBasis = 91 + (cIdx % 7); // High achiever
+      if (student.firstName === 'Ahmed') percentageBasis = 86 + (cIdx % 8);
+      if (student.firstName === 'Daniyal') percentageBasis = 38 + (cIdx % 10); // Struggling student
+
+      const rawObtained = Math.round((percentageBasis / 100) * totalMarks);
+      const obtainedMarks = Math.max(0, Math.min(totalMarks, rawObtained));
+      const percentage = calculatePercentage(obtainedMarks, totalMarks);
+      const grade = getGradeFromPercentage(percentage);
+      const passFail = obtainedMarks >= passingMarks ? 'Pass' : 'Fail';
+
       records.push({
-        id: `grade_${student.id}_${courseId}`,
+        id: `mark_${student.id}_${subjId}_exam_mid_2026`,
         studentId: student.id,
-        courseId,
-        assignments: Math.min(100, base + 5),
-        midExam: Math.min(100, base),
-        finalExam: Math.min(100, base + ((sIndex + cIndex) % 10)),
+        studentName: student.fullName,
+        classId: student.classId,
+        examId: 'exam_mid_2026',
+        examName: 'Midterm Examination 2026',
+        subjectId: subjId,
+        subjectName: subject ? subject.name : 'Subject',
+        subjectCode: subject ? subject.code : 'SUBJ',
+        totalMarks,
+        passingMarks,
+        obtainedMarks,
+        theoryObtained: Math.round(obtainedMarks * 0.8),
+        practicalObtained: totalMarks > 75 ? Math.round(obtainedMarks * 0.2) : 0,
+        percentage: Math.round(percentage * 10) / 10,
+        grade,
+        status: passFail,
+        remarks: percentage >= 80 ? 'Excellent performance' : percentage >= 60 ? 'Good effort' : 'Needs attention',
+        updatedAt: '2026-03-14',
       });
     });
   });
+
   return records;
 }
 
-export function generateSeedActivity() {
-  const now = Date.now();
-  const hoursAgo = (h) => new Date(now - h * 60 * 60 * 1000).toISOString();
+export const SEED_ASSIGNMENTS = [
+  {
+    id: 'asg_1',
+    title: 'Quadratic Equations & Synthetic Division Exercises',
+    subjectId: 'subj_math10',
+    subjectName: 'Mathematics',
+    classId: 'class_10a',
+    className: 'Grade 10-A',
+    teacherName: 'Engr. Bilal Hassan',
+    totalMarks: 20,
+    dueDate: '2026-08-20',
+    assignedDate: '2026-08-12',
+    description: 'Solve review exercise 2.1 to 2.4 from textbook. Submit handwritten step-by-step solutions.',
+    status: 'Active',
+    submittedCount: 22,
+    totalCount: 25,
+  },
+  {
+    id: 'asg_2',
+    title: 'Physics Lab Report: Simple Harmonic Motion (Pendulum)',
+    subjectId: 'subj_phy10',
+    subjectName: 'Physics',
+    classId: 'class_10a',
+    className: 'Grade 10-A',
+    teacherName: 'Dr. Usman Ali',
+    totalMarks: 25,
+    dueDate: '2026-08-22',
+    assignedDate: '2026-08-14',
+    description: 'Submit formal practical report including apparatus diagram, 3 observation tables, and error calculation.',
+    status: 'Active',
+    submittedCount: 18,
+    totalCount: 25,
+  },
+  {
+    id: 'asg_3',
+    title: 'Urdu Essay: "Ilm Barri Daulat Hai" (علم بڑی دولت ہے)',
+    subjectId: 'subj_urdu10',
+    subjectName: 'Urdu Compulsory',
+    classId: 'class_10a',
+    className: 'Grade 10-A',
+    teacherName: 'Prof. Jamil Siddiqui',
+    totalMarks: 15,
+    dueDate: '2026-08-25',
+    assignedDate: '2026-08-15',
+    description: 'Write a comprehensive 350-word essay with relevant poetic quotations and references.',
+    status: 'Active',
+    submittedCount: 14,
+    totalCount: 25,
+  },
+  {
+    id: 'asg_4',
+    title: 'C++ Array Manipulation and Bubble Sort Program',
+    subjectId: 'subj_cs10',
+    subjectName: 'Computer Science',
+    classId: 'class_10b',
+    className: 'Grade 10-B',
+    teacherName: 'Engr. Fatima Zahra',
+    totalMarks: 20,
+    dueDate: '2026-08-24',
+    assignedDate: '2026-08-14',
+    description: 'Write, compile, and document a C++ program sorting an array of 10 integers in ascending order.',
+    status: 'Active',
+    submittedCount: 19,
+    totalCount: 24,
+  },
+];
 
-  return [
-    {
-      id: 'seed-1',
-      action: 'New student enrolled',
-      detail: 'Sarah Chen joined Introduction to Computer Science',
-      timestamp: hoursAgo(2),
-    },
-    {
-      id: 'seed-2',
-      action: 'Grade submitted',
-      detail: 'Midterm scores posted for Calculus II',
-      timestamp: hoursAgo(4),
-    },
-    {
-      id: 'seed-3',
-      action: 'Attendance marked',
-      detail: 'Physics for Engineers lab session completed',
-      timestamp: hoursAgo(6),
-    },
-    {
-      id: 'seed-4',
-      action: 'Course updated',
-      detail: 'Syllabus revised for Data Structures & Algorithms',
-      timestamp: hoursAgo(22),
-    },
-  ];
+export const SEED_FEES = [
+  {
+    id: 'fee_1',
+    invoiceNumber: 'INV-2026-0801',
+    challanNo: 'CH-88201',
+    studentId: 'student_1',
+    studentName: 'Romeel Iqbal',
+    rollNo: '10-A-01',
+    className: 'Grade 10 (Sec A)',
+    month: 'August 2026',
+    issueDate: '2026-08-01',
+    dueDate: '2026-08-15',
+    tuitionFee: 8500,
+    labFee: 1500,
+    examFee: 1000,
+    transportFee: 3000,
+    discount: 0,
+    totalAmount: 14000,
+    paidAmount: 14000,
+    balance: 0,
+    status: 'Paid',
+    paymentDate: '2026-08-05',
+    paymentMethod: 'Bank Transfer (HBL)',
+  },
+  {
+    id: 'fee_2',
+    invoiceNumber: 'INV-2026-0802',
+    challanNo: 'CH-88202',
+    studentId: 'student_2',
+    studentName: 'Ahmed Khan',
+    rollNo: '10-A-02',
+    className: 'Grade 10 (Sec A)',
+    month: 'August 2026',
+    issueDate: '2026-08-01',
+    dueDate: '2026-08-15',
+    tuitionFee: 8500,
+    labFee: 1500,
+    examFee: 1000,
+    transportFee: 0,
+    discount: 1000, // Merit scholarship
+    totalAmount: 10000,
+    paidAmount: 10000,
+    balance: 0,
+    status: 'Paid',
+    paymentDate: '2026-08-08',
+    paymentMethod: 'JazzCash',
+  },
+  {
+    id: 'fee_3',
+    invoiceNumber: 'INV-2026-0803',
+    challanNo: 'CH-88203',
+    studentId: 'student_6',
+    studentName: 'Daniyal Rehman',
+    rollNo: '10-A-06',
+    className: 'Grade 10 (Sec A)',
+    month: 'August 2026',
+    issueDate: '2026-08-01',
+    dueDate: '2026-08-15',
+    tuitionFee: 8500,
+    labFee: 1500,
+    examFee: 1000,
+    transportFee: 3000,
+    discount: 0,
+    totalAmount: 14000,
+    paidAmount: 0,
+    balance: 14000,
+    status: 'Overdue',
+    paymentDate: null,
+    paymentMethod: null,
+  },
+  {
+    id: 'fee_4',
+    invoiceNumber: 'INV-2026-0804',
+    challanNo: 'CH-88204',
+    studentId: 'student_11',
+    studentName: 'Usman Ghani',
+    rollNo: '10-B-01',
+    className: 'Grade 10 (Sec B)',
+    month: 'August 2026',
+    issueDate: '2026-08-01',
+    dueDate: '2026-08-15',
+    tuitionFee: 8500,
+    labFee: 1500,
+    examFee: 1000,
+    transportFee: 0,
+    discount: 0,
+    totalAmount: 11000,
+    paidAmount: 5000,
+    balance: 6000,
+    status: 'Partially Paid',
+    paymentDate: '2026-08-12',
+    paymentMethod: 'EasyPaisa',
+  },
+  {
+    id: 'fee_5',
+    invoiceNumber: 'INV-2026-0805',
+    challanNo: 'CH-88205',
+    studentId: 'student_14',
+    studentName: 'Maryam Iqbal',
+    rollNo: '10-B-04',
+    className: 'Grade 10 (Sec B)',
+    month: 'August 2026',
+    issueDate: '2026-08-01',
+    dueDate: '2026-08-15',
+    tuitionFee: 8500,
+    labFee: 1500,
+    examFee: 1000,
+    transportFee: 3000,
+    discount: 1500, // Sibling concession
+    totalAmount: 12500,
+    paidAmount: 12500,
+    balance: 0,
+    status: 'Paid',
+    paymentDate: '2026-08-05',
+    paymentMethod: 'Bank Transfer (HBL)',
+  },
+];
+
+export const SEED_ANNOUNCEMENTS = [
+  {
+    id: 'ann_1',
+    title: 'BISE Registration & Matric Board Form Submission Deadline',
+    category: 'Examination',
+    target: 'Grade 9 & 10 Students and Parents',
+    date: '2026-08-15',
+    priority: 'High',
+    author: 'Controller of Examinations',
+    content: 'All matriculation students must submit two attested passport-sized photographs, B-Form copy, and Father CNIC copy by August 30, 2026 to the administrative office.',
+  },
+  {
+    id: 'ann_2',
+    title: 'Independence Day Celebrations & National Flag Hoisting',
+    category: 'Events',
+    target: 'Entire Institution',
+    date: '2026-08-13',
+    priority: 'Normal',
+    author: 'Principal Office',
+    content: 'EduPulse will hold the 79th Independence Day Flag Hoisting ceremony on 14th August at 08:30 AM in the Main Courtyard. Students are requested to attend in neat school uniform.',
+  },
+  {
+    id: 'ann_3',
+    title: 'Parent-Teacher Meeting (PTM) for Midterm Performance Review',
+    category: 'Academic',
+    target: 'All Parents & Teachers',
+    date: '2026-08-10',
+    priority: 'High',
+    author: 'Academic Coordinator',
+    content: 'PTM for reviewing the Midterm progress reports will take place on Saturday, August 23, from 09:00 AM to 01:30 PM. Parents can collect student report cards and meet subject lecturers.',
+  },
+];
+
+export const SEED_ADMISSIONS = [
+  {
+    id: 'adm_1',
+    applicantName: 'Muhammad Hamza Tariq',
+    fatherName: 'Tariq Javed',
+    appliedClass: '1st Year FSc Pre-Engineering',
+    matricRollNo: '445201 (BISE Rawalpindi)',
+    matricMarks: '1020 / 1100 (92.7%)',
+    phone: '+92 300 9876543',
+    email: 'hamza.tariq@gmail.com',
+    applicationDate: '2026-08-10',
+    status: 'Accepted',
+    interviewDate: '2026-08-18',
+    notes: 'Outstanding matriculation score. Recommended for merit scholarship.',
+  },
+  {
+    id: 'adm_2',
+    applicantName: 'Amina Shahzadi',
+    fatherName: 'Shahzad Anwar',
+    appliedClass: '1st Year FSc Pre-Medical',
+    matricRollNo: '551902 (BISE Federal)',
+    matricMarks: '985 / 1100 (89.5%)',
+    phone: '+92 321 4455667',
+    email: 'amina.shahzadi@gmail.com',
+    applicationDate: '2026-08-12',
+    status: 'Under Review',
+    interviewDate: '2026-08-20',
+    notes: 'Documents verified. Interview scheduled with Medical Faculty board.',
+  },
+  {
+    id: 'adm_3',
+    applicantName: 'Saad Bin Farooq',
+    fatherName: 'Farooq Ahmed',
+    appliedClass: 'Grade 9 Science',
+    matricRollNo: 'N/A (Transfer from Army Public School)',
+    matricMarks: 'Middle Standard: 88%',
+    phone: '+92 333 9988112',
+    email: 'farooq.ahmed@yahoo.com',
+    applicationDate: '2026-08-14',
+    status: 'Test / Interview',
+    interviewDate: '2026-08-19',
+    notes: 'Entrance test cleared in Math (82%) and Science (78%).',
+  },
+  {
+    id: 'adm_4',
+    applicantName: 'Farhan Zaheer',
+    fatherName: 'Zaheer Abbas',
+    appliedClass: '1st Year ICS',
+    matricRollNo: '334109 (BISE Lahore)',
+    matricMarks: '740 / 1100 (67.2%)',
+    phone: '+92 345 6677889',
+    email: 'zaheer.abbas@gmail.com',
+    applicationDate: '2026-08-15',
+    status: 'Application Submitted',
+    interviewDate: null,
+    notes: 'Awaiting fee voucher clearance and character certificate.',
+  },
+];
+
+export const SEED_LIBRARY_BOOKS = [
+  {
+    id: 'book_1',
+    title: 'Punjab Textbook Board Mathematics for Class 10',
+    author: 'Prof. Muhammad Habib & Panel',
+    isbn: '978-969-584-012-3',
+    category: 'Mathematics',
+    totalCopies: 45,
+    availableCopies: 38,
+    shelfLocation: 'Shelf M-02',
+  },
+  {
+    id: 'book_2',
+    title: 'Fundamentals of Physics (Halliday & Resnick Edition for College)',
+    author: 'David Halliday, Robert Resnick',
+    isbn: '978-047-055-653-5',
+    category: 'Physics',
+    totalCopies: 25,
+    availableCopies: 19,
+    shelfLocation: 'Shelf P-04',
+  },
+  {
+    id: 'book_3',
+    title: 'Balochistan & Federal Textbook Chemistry Part-I',
+    author: 'National Book Foundation',
+    isbn: '978-969-370-114-1',
+    category: 'Chemistry',
+    totalCopies: 30,
+    availableCopies: 24,
+    shelfLocation: 'Shelf C-01',
+  },
+  {
+    id: 'book_4',
+    title: 'Kulliyat-e-Iqbal (Complete Urdu Poetic Works of Allama Iqbal)',
+    author: 'Allama Muhammad Iqbal',
+    isbn: '978-969-416-001-8',
+    category: 'Literature & Urdu',
+    totalCopies: 15,
+    availableCopies: 12,
+    shelfLocation: 'Shelf U-01',
+  },
+  {
+    id: 'book_5',
+    title: 'Programming with C++ and Object Oriented Data Structures',
+    author: 'Robert Lafore',
+    isbn: '978-067-232-697-4',
+    category: 'Computer Science',
+    totalCopies: 20,
+    availableCopies: 14,
+    shelfLocation: 'Shelf CS-03',
+  },
+];
+
+export const SEED_INVENTORY = [
+  {
+    id: 'asset_1',
+    assetCode: 'EQ-LAB-01',
+    name: 'Compound Optical Microscopes (40x–1000x)',
+    category: 'Biology Lab Equipment',
+    location: 'Biology Lab (Room 105)',
+    quantity: 18,
+    condition: 'Good',
+    purchaseDate: '2023-08-10',
+    status: 'In Use',
+  },
+  {
+    id: 'asset_2',
+    assetCode: 'IT-PC-24',
+    name: 'Dell OptiPlex Core i5 11th Gen Workstations',
+    category: 'IT Equipment',
+    location: 'Computer Lab 1',
+    quantity: 35,
+    condition: 'Excellent',
+    purchaseDate: '2024-02-15',
+    status: 'In Use',
+  },
+  {
+    id: 'asset_3',
+    assetCode: 'AV-PRJ-03',
+    name: 'Epson 1080p Interactive Ceiling Projectors',
+    category: 'Audio/Visual',
+    location: 'Lecture Hall 1 & 2',
+    quantity: 6,
+    condition: 'Good',
+    purchaseDate: '2023-11-20',
+    status: 'In Use',
+  },
+];
+
+export const SEED_FACILITIES = [
+  {
+    id: 'fac_1',
+    roomNumber: 'Room 101',
+    name: 'Classroom Grade 9-A',
+    type: 'Classroom',
+    capacity: 35,
+    floor: 'Ground Floor',
+    equipment: 'Whiteboard, Multimedia Projector, Split AC',
+    status: 'Occupied',
+  },
+  {
+    id: 'fac_2',
+    roomNumber: 'Room 201',
+    name: 'Classroom Grade 10-A',
+    type: 'Classroom',
+    capacity: 35,
+    floor: '1st Floor',
+    equipment: 'Smart Interactive Board, Dual AC, Sound System',
+    status: 'Occupied',
+  },
+  {
+    id: 'fac_3',
+    roomNumber: 'Lab-CS1',
+    name: 'Main Computer Science & Coding Lab',
+    type: 'Computer Lab',
+    capacity: 36,
+    floor: '1st Floor',
+    equipment: '35 Dell Workstations, Gigabit Switch, High-Speed Fiber Net',
+    status: 'Occupied',
+  },
+  {
+    id: 'fac_4',
+    roomNumber: 'Lab-PHY',
+    name: 'Quaid-e-Azam Physics Laboratory',
+    type: 'Science Lab',
+    capacity: 30,
+    floor: 'Ground Floor',
+    equipment: 'Optics Benches, Vernier Callipers, Oscilloscopes, Galvanometers',
+    status: 'Available',
+  },
+];
+
+export const SEED_TRANSPORT = [
+  {
+    id: 'route_1',
+    routeName: 'Route 1: Rawalpindi / Saddar / Westridge',
+    busNumber: 'ISB-LES-4412',
+    driverName: 'Muhammad Akram',
+    driverPhone: '+92 300 7654321',
+    capacity: 45,
+    allocatedStudentsCount: 38,
+    monthlyFee: 3500,
+    status: 'Active',
+  },
+  {
+    id: 'route_2',
+    routeName: 'Route 2: Islamabad G-Sectors & F-Sectors',
+    busNumber: 'ICT-GAR-8910',
+    driverName: 'Shaukat Ali',
+    driverPhone: '+92 312 9988776',
+    capacity: 45,
+    allocatedStudentsCount: 42,
+    monthlyFee: 3000,
+    status: 'Active',
+  },
+];
+
+export const SEED_HOSTEL = [
+  {
+    id: 'hostel_1',
+    name: 'Allama Iqbal Boys Hostel',
+    wardenName: 'Mr. Rashid Minhas',
+    wardenPhone: '+92 334 7788990',
+    totalRooms: 20,
+    totalBeds: 60,
+    occupiedBeds: 48,
+    monthlyFee: 12000,
+    status: 'Active',
+  },
+];
+
+export const SEED_COMPLAINTS = [
+  {
+    id: 'comp_1',
+    ticketNo: 'TKT-104',
+    title: 'Computer Lab 1 Projector Display Flickering',
+    category: 'IT / Facility',
+    submittedBy: 'Engr. Fatima Zahra (Teacher)',
+    date: '2026-08-14',
+    priority: 'Medium',
+    status: 'In Progress',
+    assignedTo: 'IT Support Team',
+    description: 'The HDMI cable and ceiling mount connection is loose causing screen blackout during CS lectures.',
+  },
+  {
+    id: 'comp_2',
+    ticketNo: 'TKT-105',
+    title: 'Route 2 School Bus Late by 15 Minutes at G-10 Stop',
+    category: 'Transport',
+    submittedBy: 'Muhammad Iqbal (Parent)',
+    date: '2026-08-15',
+    priority: 'High',
+    status: 'Assigned',
+    assignedTo: 'Transport Incharge',
+    description: 'Due to road construction, Route 2 bus arrival was delayed. Requesting adjusted morning pickup timings.',
+  },
+];
+
+export const SEED_DISCIPLINE = [
+  {
+    id: 'disc_1',
+    studentId: 'student_6',
+    studentName: 'Daniyal Rehman (10-A)',
+    incidentDate: '2026-08-11',
+    category: 'Repeated Truancy / Low Attendance',
+    severity: 'Warning Issued',
+    reportedBy: 'Engr. Bilal Hassan (Class Teacher)',
+    actionTaken: 'Parent summoned for counseling. Official attendance warning letter issued.',
+    status: 'Resolved',
+  },
+];
+
+export const SEED_STAFF = [
+  {
+    id: 'staff_1',
+    staffCode: 'STF-001',
+    fullName: 'Ms. Sadia Munir',
+    designation: 'Admissions Coordinator',
+    department: 'Administration',
+    email: 'admissions@edupulse.edu.pk',
+    phone: '+92 321 5566778',
+    status: 'Active',
+    joiningDate: '2021-03-01',
+  },
+  {
+    id: 'staff_2',
+    staffCode: 'STF-002',
+    fullName: 'Mr. Zahid Hussain',
+    designation: 'Head Librarian',
+    department: 'Library',
+    email: 'library@edupulse.edu.pk',
+    phone: '+92 345 8899001',
+    status: 'Active',
+    joiningDate: '2019-08-15',
+  },
+  {
+    id: 'staff_3',
+    staffCode: 'STF-003',
+    fullName: 'Mr. Asif Raza',
+    designation: 'Chief Accounts Officer',
+    department: 'Finance',
+    email: 'accounts@edupulse.edu.pk',
+    phone: '+92 300 4455667',
+    status: 'Active',
+    joiningDate: '2017-01-10',
+  },
+];
+
+export function generateSeedParents(students) {
+  const parentMap = new Map();
+
+  students.forEach((student) => {
+    const key = student.guardianPhone || student.guardianEmail;
+    if (!parentMap.has(key)) {
+      parentMap.set(key, {
+        id: `parent_${parentMap.size + 1}`,
+        name: student.guardianName,
+        relation: student.guardianRelation,
+        email: student.guardianEmail,
+        phone: student.guardianPhone,
+        address: student.address,
+        linkedStudentIds: [],
+        status: 'Active',
+        avatarColor: getAvatarColor(student.guardianName),
+        initials: getInitials(student.guardianName.split(' ')[0], student.guardianName.split(' ').slice(-1)[0]),
+      });
+    }
+    parentMap.get(key).linkedStudentIds.push(student.id);
+  });
+
+  return Array.from(parentMap.values());
 }
+
+export const SEED_EVENTS = [
+  {
+    id: 'event_1',
+    title: 'Annual Sports Gala 2026',
+    category: 'Sports',
+    date: '2026-09-15',
+    endDate: '2026-09-17',
+    location: 'Main Sports Ground',
+    organizer: 'Sports Committee',
+    targetAudience: 'All Students',
+    status: 'Upcoming',
+    description: 'Inter-house athletics, cricket, and football tournaments.',
+  },
+  {
+    id: 'event_2',
+    title: 'Science Exhibition & Project Fair',
+    category: 'Academic',
+    date: '2026-10-05',
+    endDate: '2026-10-05',
+    location: 'Science Block Auditorium',
+    organizer: 'Science Department',
+    targetAudience: 'Grade 9–12 & FSc',
+    status: 'Scheduled',
+    description: 'Student science models, robotics demos, and research posters.',
+  },
+  {
+    id: 'event_3',
+    title: 'Parent-Teacher Meeting (Midterm Review)',
+    category: 'PTM',
+    date: '2026-08-23',
+    endDate: '2026-08-23',
+    location: 'Respective Classrooms',
+    organizer: 'Academic Office',
+    targetAudience: 'All Parents',
+    status: 'Upcoming',
+    description: 'Review midterm report cards with subject teachers.',
+  },
+];
+
+export const SEED_PAYMENTS = [
+  {
+    id: 'pay_1',
+    feeId: 'fee_1',
+    studentId: 'student_1',
+    studentName: 'Romeel Iqbal',
+    amount: 14000,
+    method: 'Bank Transfer (HBL)',
+    receiptNo: 'RCP-2026-0801',
+    paymentDate: '2026-08-05',
+    recordedBy: 'Mr. Asif Raza',
+  },
+  {
+    id: 'pay_2',
+    feeId: 'fee_2',
+    studentId: 'student_2',
+    studentName: 'Ahmed Khan',
+    amount: 10000,
+    method: 'JazzCash',
+    receiptNo: 'RCP-2026-0802',
+    paymentDate: '2026-08-08',
+    recordedBy: 'Mr. Asif Raza',
+  },
+  {
+    id: 'pay_3',
+    feeId: 'fee_4',
+    studentId: 'student_11',
+    studentName: 'Usman Ghani',
+    amount: 5000,
+    method: 'EasyPaisa',
+    receiptNo: 'RCP-2026-0804',
+    paymentDate: '2026-08-12',
+    recordedBy: 'Mr. Asif Raza',
+  },
+];
+
+export const SEED_NOTIFICATIONS = [
+  {
+    id: 'notif_1',
+    title: 'Midterm results published',
+    message: 'Grade 10-A Mathematics midterm marks are now available.',
+    type: 'Examination',
+    read: false,
+    timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+    targetRole: 'teacher',
+  },
+  {
+    id: 'notif_2',
+    title: 'Fee challan overdue',
+    message: 'Daniyal Rehman (10-A-06) has an overdue fee of Rs. 14,000.',
+    type: 'Finance',
+    read: false,
+    timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+    targetRole: 'accountant',
+  },
+  {
+    id: 'notif_3',
+    title: 'Low attendance alert',
+    message: '3 students in Grade 10-A have attendance below 75%.',
+    type: 'Attendance',
+    read: true,
+    timestamp: new Date(Date.now() - 1000 * 60 * 360).toISOString(),
+    targetRole: 'admin',
+  },
+];
+
+export const SEED_TIMETABLE = [
+  { id: 'tt_1', classId: 'class_10a', day: 'Monday', period: 1, startTime: '08:00', endTime: '08:45', subjectId: 'subj_math10', subjectName: 'Mathematics', teacherName: 'Engr. Bilal Hassan', room: 'Room 201' },
+  { id: 'tt_2', classId: 'class_10a', day: 'Monday', period: 2, startTime: '08:45', endTime: '09:30', subjectId: 'subj_phy10', subjectName: 'Physics', teacherName: 'Dr. Usman Ali', room: 'Room 201' },
+  { id: 'tt_3', classId: 'class_10a', day: 'Monday', period: 3, startTime: '09:45', endTime: '10:30', subjectId: 'subj_chem10', subjectName: 'Chemistry', teacherName: 'Prof. Tariq Mehmood', room: 'Room 201' },
+  { id: 'tt_4', classId: 'class_10a', day: 'Monday', period: 4, startTime: '10:30', endTime: '11:15', subjectId: 'subj_eng10', subjectName: 'English', teacherName: 'Ms. Ayesha Siddiqui', room: 'Room 201' },
+  { id: 'tt_5', classId: 'class_10a', day: 'Tuesday', period: 1, startTime: '08:00', endTime: '08:45', subjectId: 'subj_bio10', subjectName: 'Biology', teacherName: 'Dr. Saima Rashid', room: 'Room 201' },
+  { id: 'tt_6', classId: 'class_10a', day: 'Tuesday', period: 2, startTime: '08:45', endTime: '09:30', subjectId: 'subj_urdu10', subjectName: 'Urdu', teacherName: 'Prof. Jamil Siddiqui', room: 'Room 201' },
+  { id: 'tt_7', classId: 'class_10a', day: 'Wednesday', period: 1, startTime: '08:00', endTime: '08:45', subjectId: 'subj_isl10', subjectName: 'Islamiat', teacherName: 'Prof. Jamil Siddiqui', room: 'Room 201' },
+  { id: 'tt_8', classId: 'class_10a', day: 'Thursday', period: 1, startTime: '08:00', endTime: '08:45', subjectId: 'subj_pst10', subjectName: 'Pakistan Studies', teacherName: 'Prof. Jamil Siddiqui', room: 'Room 201' },
+];
+
+export const SEED_TEACHER_ATTENDANCE = {
+  teacher_1_2026_08_15: 'present',
+  teacher_2_2026_08_15: 'present',
+  teacher_3_2026_08_15: 'late',
+  teacher_4_2026_08_15: 'present',
+  teacher_5_2026_08_15: 'present',
+  teacher_6_2026_08_15: 'leave',
+  teacher_7_2026_08_15: 'present',
+  teacher_8_2026_08_15: 'present',
+};
+
+export function getDefaultSettings() {
+  return {
+    institutionName: INSTITUTION_INFO.name,
+    institutionTagline: INSTITUTION_INFO.tagline,
+    academicYear: INSTITUTION_INFO.academicYear,
+    currentTerm: INSTITUTION_INFO.currentTerm,
+    passingPercentage: INSTITUTION_INFO.passingPercentage,
+    attendanceThreshold: INSTITUTION_INFO.attendanceThreshold,
+    showClassRank: true,
+    accentColor: 'indigo',
+    compactMode: false,
+    sidebarCollapsedDefault: false,
+    darkMode: true,
+    gradingScale: [
+      { grade: 'A+', minPercentage: 80, maxPercentage: 100, label: 'Outstanding / Honors', pass: true },
+      { grade: 'A', minPercentage: 70, maxPercentage: 79.99, label: 'Excellent', pass: true },
+      { grade: 'B+', minPercentage: 60, maxPercentage: 69.99, label: 'Very Good', pass: true },
+      { grade: 'B', minPercentage: 50, maxPercentage: 59.99, label: 'Good', pass: true },
+      { grade: 'C', minPercentage: 40, maxPercentage: 49.99, label: 'Satisfactory / Pass', pass: true },
+      { grade: 'D', minPercentage: 33, maxPercentage: 39.99, label: 'Marginal Pass', pass: true },
+      { grade: 'F', minPercentage: 0, maxPercentage: 32.99, label: 'Fail', pass: false },
+    ],
+  };
+}
+
+export const SEED_AUDIT_LOGS = [
+  {
+    id: 'log_1',
+    user: 'Engr. Bilal Hassan',
+    role: 'Teacher',
+    action: 'Marks entered & updated',
+    module: 'Examination',
+    detail: 'Mathematics Midterm marks posted for Grade 10-A (25 students)',
+    timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+  },
+  {
+    id: 'log_2',
+    user: 'Admin Desk',
+    role: 'Administrator',
+    action: 'Student admission enrolled',
+    module: 'Admissions',
+    detail: 'Muhammad Hamza Tariq enrolled into 1st Year Pre-Engineering',
+    timestamp: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
+  },
+  {
+    id: 'log_3',
+    user: 'Mr. Asif Raza',
+    role: 'Accountant',
+    action: 'Fee payment recorded',
+    module: 'Finance',
+    detail: 'Challan #CH-88201 paid Rs. 14,000 for Romeel Iqbal (Grade 10)',
+    timestamp: new Date(Date.now() - 1000 * 60 * 360).toISOString(),
+  },
+  {
+    id: 'log_4',
+    user: 'Dr. Usman Ali',
+    role: 'Teacher',
+    action: 'Attendance marked',
+    module: 'Attendance',
+    detail: 'Physics Section 10-A marked: 23 Present, 2 Absent',
+    timestamp: new Date(Date.now() - 1000 * 60 * 600).toISOString(),
+  },
+];

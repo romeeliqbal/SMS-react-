@@ -1,22 +1,25 @@
 import { readStorage, writeStorage, STORAGE_KEYS } from './storage';
 
-const MAX_ACTIVITY_ITEMS = 20;
+const MAX_LOG_ITEMS = 50;
 
-export function logActivity(action, detail) {
-  const existing = readStorage(STORAGE_KEYS.activity, []);
+export function logActivity(action, detail, options = {}) {
+  const existing = readStorage(STORAGE_KEYS.auditLogs, []);
   const entry = {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    user: options.user || 'System',
+    role: options.role || 'System',
     action,
+    module: options.module || 'General',
     detail,
     timestamp: new Date().toISOString(),
   };
-  const next = [entry, ...existing].slice(0, MAX_ACTIVITY_ITEMS);
-  writeStorage(STORAGE_KEYS.activity, next);
+  const next = [entry, ...existing].slice(0, MAX_LOG_ITEMS);
+  writeStorage(STORAGE_KEYS.auditLogs, next);
   return next;
 }
 
 export function getActivity() {
-  return readStorage(STORAGE_KEYS.activity, []);
+  return readStorage(STORAGE_KEYS.auditLogs, []);
 }
 
 export function formatRelativeTime(isoString) {

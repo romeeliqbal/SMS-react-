@@ -1,14 +1,30 @@
-import { Bell, Menu, Search, UserCircle } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Bell, ChevronDown, Menu, Search, UserCircle } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { getNavigationItemByPath } from '../../data/navigation';
+import { ROLE_DEFINITIONS } from '../../data/roleConfigs';
+import { useAuth } from '../../context/AuthContext';
+import { useData } from '../../context/DataContext';
 import { useLayout } from '../../hooks/useLayout';
+import Avatar from '../common/Avatar';
 import styles from './Topbar.module.css';
 
 export default function Topbar() {
   const location = useLocation();
   const { toggleSidebar } = useLayout();
+  const { activeRole, authProfile, roleDefinition, switchRole } = useAuth();
+  const { notifications, setNotifications } = useData();
+  const [roleMenuOpen, setRoleMenuOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+
   const currentNav = getNavigationItemByPath(location.pathname);
   const pageTitle = currentNav?.label ?? 'Dashboard';
+
+  const unreadCount = useMemo(() => notifications.filter((n) => !n.read).length, [notifications]);
+
+  function markAllRead() {
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  }
 
   return (
     <header className={styles.topbar}>
@@ -25,7 +41,7 @@ export default function Topbar() {
         <div className={styles.titleGroup}>
           <h1 className={styles.title}>{pageTitle}</h1>
           <p className={styles.subtitle}>
-            {currentNav?.description ?? 'Overview of your student management system.'}
+            {currentNav?.description ?? 'EduPulse School & College Management System'}
           </p>
         </div>
       </div>
@@ -36,20 +52,77 @@ export default function Topbar() {
           <input
             type="search"
             className={styles.searchInput}
-            placeholder="Search students, courses..."
-            aria-label="Search students and courses"
+            placeholder="Search students, teachers..."
+            aria-label="Global search"
           />
         </div>
 
-        <button type="button" className={styles.iconButton} aria-label="Notifications">
-          <Bell size={20} />
-          <span className={styles.notificationDot} />
-        </button>
+        <div className={styles.dropdown}>
+          <button
+            type="button"
+            className={styles.iconButton}
+            aria-label="Notifications"
+            onClick={() => setNotifOpen((v) => !v)}
+          >
+            <Bell size={20} />
+            {unreadCount > 0 && <span className={styles.notificationDot} />}
+          </button>
+          {notifOpen && (
+            <div className={styles.dropdownPanel}>
+              <div className={styles.panelHeader}>
+                <span>Notifications</span>
+                <button type="button" className={styles.linkBtn} onClick={markAllRead}>
+                  Mark all read
+                </button>
+              </div>
+              {notifications.length === 0 ? (
+                <p className={styles.emptyPanel}>No notifications</p>
+              ) : (
+                notifications.slice(0, 5).map((n) => (
+                  <div key={n.id} className={[styles.notifItem, !n.read ? styles.unread : ''].join(' ')}>
+                    <strong>{n.title}</strong>
+                    <span>{n.message}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
 
-        <button type="button" className={styles.profileButton} aria-label="User profile">
-          <UserCircle size={22} />
-          <span className={styles.profileName}>Admin</span>
-        </button>
+        <div className={styles.dropdown}>
+          <button
+            type="button"
+            className={styles.roleButton}
+            onClick={() => setRoleMenuOpen((v) => !v)}
+            aria-label="Switch role"
+          >
+            <Avatar initials={authProfile?.initials || 'AD'} color={authProfile?.avatarColor} size="sm" />
+            <span className={styles.roleInfo}>
+              <span className={styles.roleName}>{authProfile?.name || 'Admin'}</span>
+              <span className={styles.roleBadge}>{roleDefinition?.badge || 'Admin'}</span>
+            </span>
+            <ChevronDown size={16} />
+          </button>
+          {roleMenuOpen && (
+            <div className={styles.dropdownPanel}>
+              <div className={styles.panelHeader}>Switch Role</div>
+              {ROLE_DEFINITIONS.map((role) => (
+                <button
+                  key={role.id}
+                  type="button"
+                  className={[styles.roleOption, activeRole === role.id ? styles.roleActive : ''].join(' ')}
+                  onClick={() => {
+                    switchRole(role.id);
+                    setRoleMenuOpen(false);
+                  }}
+                >
+                  <span className={styles.roleOptionBadge}>{role.badge}</span>
+                  <span>{role.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );
